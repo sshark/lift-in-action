@@ -2,10 +2,10 @@ import sbt._
 import eu.getintheloop.Native2AsciiPlugin
 import reaktor.scct.ScctProject
 
-class LiftInActionProject(info: ProjectInfo) extends ParentProject(info) with IdeaProject {
+class lLiftInActionProject(info: ProjectInfo) extends ParentProject(info) with IdeaProject {
   val liftVersion = "2.3"
   val h2Version = "1.3.146"
-  
+
   // implement the module definitions
   lazy val chpTwo = project("chapter-2", "2", new ChapterTwo(_))
   lazy val chpThree = project("chapter-3", "3", new ChapterThree(_))
@@ -31,62 +31,62 @@ class LiftInActionProject(info: ProjectInfo) extends ParentProject(info) with Id
   lazy val chpFourteen = project("chapter-14", "14", new ChapterFourteen(_))
   // Deployment and Scaling
   lazy val chpFifteen = project("chapter-15", "15", new ChapterFifteen(_))
-  
+
   // define each module and any specific dependencies that it has
   // As chapter one is so basic, it has no specilized deps
   class ChapterTwo(info: ProjectInfo) extends ProjectDefaults(info)
-  
+
   // chapter two requires mapper, as we'll be doing some database stuff
-  class ChapterThree(info: ProjectInfo) 
-      extends ChapterTwo(info) 
+  class ChapterThree(info: ProjectInfo)
+      extends ChapterTwo(info)
       with DatabaseDrivers
   {
     val mapper = "net.liftweb" %% "lift-mapper" % liftVersion % "compile"
   }
-  
-  class ChapterFour(info: ProjectInfo) 
-      extends ChapterThree(info) 
-      with DatabaseDrivers 
+
+  class ChapterFour(info: ProjectInfo)
+      extends ChapterThree(info)
+      with DatabaseDrivers
   {
     val textile = "net.liftweb" %% "lift-textile" % liftVersion % "compile"
   }
-  
-  class ChapterFive(info: ProjectInfo) 
-      extends ChapterFour(info) 
-      with DatabaseDrivers 
+
+  class ChapterFive(info: ProjectInfo)
+      extends ChapterFour(info)
+      with DatabaseDrivers
   {
     val machine = "net.liftweb" %% "lift-machine" % liftVersion % "compile"
     val paypal = "net.liftweb" %% "lift-paypal" % liftVersion % "compile"
   }
-  
+
   class ChapterSix(info: ProjectInfo) extends ProjectDefaults(info){
     val wizard = "net.liftweb" %% "lift-wizard" % liftVersion % "compile"
     val widgets = "net.liftweb" %% "lift-widgets" % liftVersion % "compile"
     val scalate = "net.liftweb" %% "lift-scalate" % liftVersion % "compile"
   }
-  
-  class ChapterSeven(info: ProjectInfo) 
-      extends ProjectDefaults(info) 
-      with DatabaseDrivers 
+
+  class ChapterSeven(info: ProjectInfo)
+      extends ProjectDefaults(info)
+      with DatabaseDrivers
   {
     val mapper = "net.liftweb" %% "lift-mapper" % liftVersion % "compile"
     val textile = "net.liftweb" %% "lift-textile" % liftVersion % "compile"
   }
-  
+
   class ChapterEight(info: ProjectInfo) extends ProjectDefaults(info)
-  
+
   class ChapterNine(info: ProjectInfo) extends ProjectDefaults(info)
-  
-  class ChapterTen(info: ProjectInfo) 
-      extends ProjectDefaults(info) 
-      with DatabaseDrivers 
+
+  class ChapterTen(info: ProjectInfo)
+      extends ProjectDefaults(info)
+      with DatabaseDrivers
   {
     val mapper = "net.liftweb" %% "lift-mapper" % liftVersion % "compile"
   }
-  
-  class ChapterEleven(info: ProjectInfo) 
-      extends ProjectDefaults(info) 
-      with DatabaseDrivers 
+
+  class ChapterEleven(info: ProjectInfo)
+      extends ProjectDefaults(info)
+      with DatabaseDrivers
   {
     val squeryl = "net.liftweb" %% "lift-squeryl-record" % liftVersion % "compile"
     val couch = "net.liftweb" %% "lift-couchdb" % liftVersion % "compile"
@@ -95,14 +95,14 @@ class LiftInActionProject(info: ProjectInfo) extends ParentProject(info) with Id
     // requires 2.4-SNAPSHOT of Lift which the book does not use.
     // val rogue = "com.foursquare" %% "rogue" % "1.0.10" % "compile"
   }
-  
-  class ChapterTwelve(info: ProjectInfo) 
-      extends ProjectDefaults(info) 
-      with Native2AsciiPlugin 
-  
-  class ChapterThirteen(info: ProjectInfo) 
-      extends ChapterFour(info) 
-      with DatabaseDrivers 
+
+  class ChapterTwelve(info: ProjectInfo)
+      extends ProjectDefaults(info)
+      with Native2AsciiPlugin
+
+  class ChapterThirteen(info: ProjectInfo)
+      extends ChapterFour(info)
+      with DatabaseDrivers
   {
     val jpa = "net.liftweb" %% "lift-jpa" % liftVersion % "compile"
     val jta = "net.liftweb" %% "lift-jta" % liftVersion % "compile"
@@ -111,9 +111,11 @@ class LiftInActionProject(info: ProjectInfo) extends ParentProject(info) with Id
     val remote = "se.scalablesolutions.akka" % "akka-remote" % "1.0" % "compile"
     val hibem = "org.hibernate" % "hibernate-entitymanager" % "3.6.0.Final" % "compile"
     val hibval = "org.hibernate" % "hibernate-validator-annotation-processor" % "4.1.0.Final" % "compile"
+    val javassist = "javassist" % "javassist" % "3.12.1.GA" % "compile"
+
   }
-  
-  class ChapterFourteen(info: ProjectInfo) 
+
+  class ChapterFourteen(info: ProjectInfo)
       extends ProjectDefaults(info)
       with DatabaseDrivers
       with ScctProject
@@ -130,42 +132,42 @@ class LiftInActionProject(info: ProjectInfo) extends ParentProject(info) with Id
     // configure the testing classpath
     override def testClasspath  = super.testClasspath +++ ("src" / "main" / "webapp")
   }
-  
+
   class ChapterFifteen(info: ProjectInfo)
-      extends ProjectDefaults(info) 
-      with DatabaseDrivers 
+      extends ProjectDefaults(info)
+      with DatabaseDrivers
   {
     val ostrich = "com.twitter" % "ostrich" % "4.1.0" % "compile"
     val mapper = "net.liftweb" %% "lift-mapper" % liftVersion % "compile"
   }
-  
-  trait DatabaseDrivers { _: DefaultWebProject => 
+
+  trait DatabaseDrivers { _: DefaultWebProject =>
     // usually you would only use one database type, not three; this gives you
     // options as to what you want to use though.
     val h2 = "com.h2database" % "h2" % h2Version % "compile"
     val mysql = "mysql" % "mysql-connector-java" % "5.1.12" % "compile"
     val postgresql = "postgresql" % "postgresql" % "9.0-801.jdbc4" % "compile"
   }
-  
+
   // define some defaults
-  abstract class ProjectDefaults(info: ProjectInfo) 
-      extends DefaultWebProject(info) 
+  abstract class ProjectDefaults(info: ProjectInfo)
+      extends DefaultWebProject(info)
       with IdeaProject {
-    
+
     override def compileOptions = Unchecked :: Deprecation :: super.compileOptions.toList
-    
+
     // deployment
     override def managedStyle = ManagedStyle.Maven
-    override def jettyWebappPath = webappPath 
-    override def scanDirectories = Nil 
-    
+    override def jettyWebappPath = webappPath
+    override def scanDirectories = Nil
+
     // every chapter will be using lift (of course!)
     val webkit = "net.liftweb" %% "lift-webkit" % liftVersion % "compile"
     val logback = "ch.qos.logback" % "logback-classic" % "0.9.24" % "compile"
     val servlet = "javax.servlet" % "servlet-api" % "2.5" % "provided"
     val jetty6 = "org.mortbay.jetty" % "jetty" % "6.1.21" % "test"
     // val log4j = "org.slf4j" % "slf4j-log4j12" % "1.6.1" % "compile"
-    
+
     object Repositories {
       lazy val MavenLocal           = MavenRepository("local.repo", "file://"+Path.userHome+"/.m2/repository")
       lazy val MavenCentral         = MavenRepository("central.repo", "http://repo1.maven.org/maven2/")
@@ -174,10 +176,10 @@ class LiftInActionProject(info: ProjectInfo) extends ParentProject(info) with Id
       lazy val ScalaToolsReleases   = MavenRepository("scala-tools.releases", "http://scala-tools.org/repo-releases/")
       lazy val ScalaToolsSnapshots  = MavenRepository("scala-tools.snapshots", "http://scala-tools.org/repo-snapshots/")
       lazy val SonatypeRepo         = MavenRepository("oss.sonatype.org", "http://oss.sonatype.org/content/groups/github/")
-      lazy val AkkaRepo             = MavenRepository("akka.repo", "http://akka.io/repository/")
+      lazy val AkkaRepo             = MavenRepository("akka.repo", "http://repo.typesafe.com/typesafe/releases")
       lazy val GuiceyFruitRepo      = MavenRepository("guiceyfruit.repo", "http://guiceyfruit.googlecode.com/svn/repo/releases/")
     }
-    
+
     import Repositories._
     // module Configurations
     lazy val localMavenRepo           = MavenLocal
@@ -203,7 +205,6 @@ class LiftInActionProject(info: ProjectInfo) extends ParentProject(info) with Id
     lazy val guiceyFruitModuleConfig  = ModuleConfiguration("org.guiceyfruit", GuiceyFruitRepo)
     lazy val jbossModuleConfig        = ModuleConfiguration("org.jboss", JBossRepo)
     lazy val logbackModuleConfig      = ModuleConfiguration("ch.qos.logback", sbt.DefaultMavenRepository)
+    lazy val javassistConfig          = ModuleConfiguration("javassist", "javassist", "3.12.1.GA", MavenCentral)
   }
 }
-
-

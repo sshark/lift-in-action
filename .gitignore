@@ -24,6 +24,7 @@ null
 tmp*
 dist
 test-output
+database
 
 # other scm
 .svn
